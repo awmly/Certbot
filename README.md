@@ -8,7 +8,7 @@ A docker container for creating and renewing lets encrypt certs using certbot.
 * `./scripts build`
 
 ### Test
-* `./scripts test`
+* `./scripts test  <add|renew|info> <domain> <email>`
 
 ### Tag/Push
 * `./scripts push`

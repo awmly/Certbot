@@ -5,7 +5,7 @@ METHOD="$1"
 if [ "$METHOD" = "build" ]; then
 
   # base build
-  docker build -t certbot -f cert/Dockerfile cert/
+  docker build -t certbot -f ./Dockerfile ./
 
 elif [ "$METHOD" = "push" ]; then
 
