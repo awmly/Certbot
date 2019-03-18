@@ -4,8 +4,10 @@
 # ADD THIS FILE TO THE HOST MACHINES /USR/BIN
 # USAGE
 # certbot add <domain> <email>
+# certbot renew all
 # certbot renew <domain>
 # certbot info
+# certbot update
 #######
 
 METHOD="$1"
@@ -24,11 +26,24 @@ if [ "$METHOD" = "add" ]; then
 
 elif [ "$METHOD" = "renew" ]; then
 
-  docker run -ti \
-  -v /var/www/certs/:/etc/letsencrypt/ \
-  -v /var/www/$DOMAIN:/webroot/ \
-  apld/certbot \
-  renew $DOMAIN
+  if [ "$DOMAIN" = "all" ]; then
+
+    for i in $(ls -d /var/www/certs/live/*); do
+
+      certbot renew ${i##*/}
+
+    done
+
+  else
+
+    docker run -ti \
+    -v /var/log/letsencrypt/:/var/log/letsencrypt/ \
+    -v /var/www/certs/:/etc/letsencrypt/ \
+    -v /var/www/$DOMAIN:/webroot/ \
+    apld/certbot \
+    renew $DOMAIN
+
+  fi
 
 elif [ "$METHOD" = "info" ]; then
 
@@ -36,5 +51,9 @@ elif [ "$METHOD" = "info" ]; then
   -v /var/www/certs/:/etc/letsencrypt/ \
   apld/certbot \
   info
+
+elif [ "$METHOD" = "update" ]; then
+
+  docker pull apld/certbot:latest
 
 fi
