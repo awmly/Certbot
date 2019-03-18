@@ -5,10 +5,13 @@ A docker container for creating and renewing lets encrypt certs using certbot.
 ## Development
 
 ### Build
-* `docker build -t certbot -f cert/Dockerfile cert/`
+* `./scripts build`
+
+### Test
+* `./scripts test`
 
 ### Tag/Push
-* `docker tag certbot apld/certbot && docker push apld/certbot`
+* `./scripts push`
 
 ## Usage
 * Mount host cert storage to /etc/letsencrypt
