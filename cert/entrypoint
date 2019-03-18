@@ -1,0 +1,31 @@
+#! /bin/sh
+
+METHOD="$1"
+DOMAIN="$2"
+EMAIL="$3"
+
+if [ "$METHOD" = "add" ]; then
+
+  certbot \
+  certonly \
+  --non-interactive \
+  --agree-tos \
+  --webroot \
+  --webroot-path /webroot \
+  --preferred-challenges http \
+  -d $DOMAIN \
+  -m $EMAIL \
+
+elif [ "$METHOD" = "renew" ]; then
+
+  certbot renew --cert-name $DOMAIN
+
+elif [ "$METHOD" = "info" ]; then
+
+  certbot certificates
+
+else
+
+  echo "METHOD NOT FOUND"
+
+fi

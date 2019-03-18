@@ -1,0 +1,40 @@
+#! /bin/bash
+
+#######
+# ADD THIS FILE TO THE HOST MACHINES /USR/BIN
+# USAGE
+# certbot add <domain> <email>
+# certbot renew <domain>
+# certbot info
+#######
+
+METHOD="$1"
+DOMAIN="$2"
+EMAIL="$3"
+
+docker pull apld/certbot:latest
+
+if [ "$METHOD" = "add" ]; then
+
+  docker run -ti \
+  -v /var/www/certs/:/etc/letsencrypt/ \
+  -v /var/www/$DOMAIN:/webroot/ \
+  apld/certbot \
+  add $DOMAIN $EMAIL
+
+elif [ "$METHOD" = "renew" ]; then
+
+  docker run -ti \
+  -v /var/www/certs/:/etc/letsencrypt/ \
+  -v /var/www/$DOMAIN:/webroot/ \
+  apld/certbot \
+  renew $DOMAIN
+
+elif [ "$METHOD" = "info" ]; then
+
+  docker run -ti \
+  -v /var/www/certs/:/etc/letsencrypt/ \
+  apld/certbot \
+  info
+
+fi

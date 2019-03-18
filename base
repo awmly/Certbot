@@ -1,0 +1,29 @@
+#! /bin/bash
+
+METHOD="$1"
+
+if [ "$METHOD" = "up" ]; then
+
+  docker-compose up --build
+
+elif [ "$METHOD" = "build" ]; then
+
+  # base build <image>
+  docker build -t certbot -f cert/Dockerfile cert/
+
+elif [ "$METHOD" = "push" ]; then
+
+  # base push <image>
+  docker tag certbot apld/certbot
+  docker push apld/certbot
+
+elif [ "$METHOD" = "test" ]; then
+
+  # base run add reports.applied.digital
+  docker run -ti \
+  -v /var/www/certs/:/etc/letsencrypt/ \
+  -v /var/www/reports.applied.digital:/webroot/ \
+  certbot \
+  $2 $3 $4
+
+fi
