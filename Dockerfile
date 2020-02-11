@@ -1,4 +1,4 @@
-FROM gliderlabs/alpine:3.8
+FROM gliderlabs/alpine:3.9
 
 RUN apk update; \
     apk upgrade; \
