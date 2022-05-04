@@ -28,9 +28,10 @@ elif [ "$METHOD" = "renew" ]; then
 
   if [ "$DOMAIN" = "all" ]; then
 
-    for i in $(ls -d /var/www/certs/live/*); do
+    for i in $(ls -d /var/www/certs/live/www.*); do
 
-      certbot renew ${i##*/}
+        VHOST="${i##*/}"
+        certbot renew "${VHOST/www./""}"
 
     done
 
